@@ -387,7 +387,7 @@ body {
 .footer {
   background: var(--bg-dark);
   color: var(--white);
-  padding: 3rem 0 2rem;
+  padding: 1rem 0 2rem;
 }
 
 .footer-content {
@@ -401,7 +401,7 @@ body {
   gap: 0.5rem;
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin: 1rem;
 }
 
 .footer-text {
@@ -423,6 +423,37 @@ body {
 
 .footer-links a:hover {
   color: var(--white);
+}
+
+/* Social Links */
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 0;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: var(--transition);
+}
+
+.social-links a:hover {
+  background: var(--primary-color);
+  transform: translateY(-3px);
+}
+
+.social-icon {
+  font-size: 18px;
 }
 
 /* Responsive Design */
