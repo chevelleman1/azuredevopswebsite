@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFacebook, faTwitter, faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons'
 import './App.css'
 
 function App() {
@@ -19,7 +21,7 @@ function App() {
         <div className="header-container">
           <div className="logo">
             <span className="logo-icon">🌟</span>
-            <span className="logo-text">NLPOA</span>
+            <span className="logo-text">Velcom</span>
           </div>
           <nav className="nav">
             <button 
@@ -55,7 +57,7 @@ function App() {
         <div className="hero-overlay"></div>
         <div className="hero-content">
           <h1 className="hero-title">
-            Welcome to <span className="highlight">NLPOA</span>
+            Welcome to <span className="highlight">Velcom</span>
           </h1>
           <p className="hero-subtitle">
             Professional services tailored to your needs. We're here to help you succeed.
@@ -161,7 +163,7 @@ function App() {
                 <span className="contact-icon">📧</span>
                 <div>
                   <h4>Email</h4>
-                  <p>info@nlpoa.com</p>
+                  <p>info@velcom.com</p>
                 </div>
               </div>
               <div className="contact-item">
@@ -192,12 +194,26 @@ function App() {
       <footer className="footer">
         <div className="container">
           <div className="footer-content">
+            <div className="social-links">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <FontAwesomeIcon icon={faFacebook} className="social-icon" />
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                <FontAwesomeIcon icon={faTwitter} className="social-icon" />
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <FontAwesomeIcon icon={faLinkedin} className="social-icon" />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <FontAwesomeIcon icon={faInstagram} className="social-icon" />
+              </a>
+            </div>
             <div className="footer-logo">
               <span className="logo-icon">🌟</span>
-              <span className="logo-text">NLPOA</span>
+              <span className="logo-text">Velcom</span>
             </div>
             <p className="footer-text">
-              © 2024 NLPOA. All rights reserved.
+              © 2024 Velcom. All rights reserved.
             </p>
             <div className="footer-links">
               <a href="#home">Privacy Policy</a>
