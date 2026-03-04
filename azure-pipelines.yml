@@ -1,6 +1,8 @@
 trigger:
   - master
 
+pr: none  # This stops the build from running on PR creation/updates
+
 resources:
   repositories:
     - repository: automatedtesting
