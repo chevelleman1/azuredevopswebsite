@@ -161,17 +161,23 @@ function App() {
                 </div>
               </div>
             </div>
-            <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
+            <form className="contact-form" onSubmit={(e) => {
+              e.preventDefault()
+              setFormSubmitted(true)
+              e.currentTarget.reset()
+              setTimeout(() => setFormSubmitted(false), 5000)
+            }}>
               <div className="form-group">
-                <input type="text" placeholder="Your Name" required />
+                <input type="text" name="name" placeholder="Your Name" required />
               </div>
               <div className="form-group">
-                <input type="email" placeholder="Your Email" required />
+                <input type="email" name="email" placeholder="Your Email" required />
               </div>
               <div className="form-group">
-                <textarea placeholder="Your Message" rows={5} required></textarea>
+                <textarea name="message" placeholder="Your Message" rows={5} required></textarea>
               </div>
               <button type="submit" className="btn btn-primary">Send Message</button>
+              {formSubmitted && <div className="form-success">We'll get back to you shortly!</div>}
             </form>
           </div>
         </div>
