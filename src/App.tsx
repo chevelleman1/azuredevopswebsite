@@ -4,6 +4,7 @@ import './App.css'
 
 function App() {
   const [activeSection, setActiveSection] = useState('home')
+  const [formSubmitted, setFormSubmitted] = useState(false)
   const location = useLocation()
 
   useEffect(() => {
