@@ -3,7 +3,7 @@ import './App.css'
 
 const projects = [
   {
-    name: 'Enterprise Cloud Migration',
+    name: 'Enterprise Cloud Migration ECM',
     client: 'Acme Corporation',
     year: 2024,
     description: 'Migrated legacy on-premise infrastructure to a fully managed cloud environment, reducing operational costs by 40%.',
