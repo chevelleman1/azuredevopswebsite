@@ -1,10 +1,24 @@
-import { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFacebook, faTwitter, faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons'
+import { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import './App.css'
 
 function App() {
   const [activeSection, setActiveSection] = useState('home')
+  const location = useLocation()
+
+  useEffect(() => {
+    // Handle scroll-to when navigating back from another page
+    const scrollTo = location.state?.scrollTo
+    if (scrollTo) {
+      setTimeout(() => {
+        const element = document.getElementById(scrollTo)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+          setActiveSection(scrollTo)
+        }
+      }, 100)
+    }
+  }, [location.state])
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
@@ -15,43 +29,7 @@ function App() {
   }
 
   return (
-    <div className="app">
-      {/* Header */}
-      <header className="header">
-        <div className="header-container">
-          <div className="logo">
-            <span className="logo-icon">🌟</span>
-            <span className="logo-text">Velcom</span>
-          </div>
-          <nav className="nav">
-            <button 
-              className={`nav-link ${activeSection === 'home' ? 'active' : ''}`}
-              onClick={() => scrollToSection('home')}
-            >
-              Home
-            </button>
-            <button 
-              className={`nav-link ${activeSection === 'about' ? 'active' : ''}`}
-              onClick={() => scrollToSection('about')}
-            >
-              About
-            </button>
-            <button 
-              className={`nav-link ${activeSection === 'services' ? 'active' : ''}`}
-              onClick={() => scrollToSection('services')}
-            >
-              Services
-            </button>
-            <button 
-              className={`nav-link ${activeSection === 'contact' ? 'active' : ''}`}
-              onClick={() => scrollToSection('contact')}
-            >
-              Contact
-            </button>
-          </nav>
-        </div>
-      </header>
-
+    <>
       {/* Hero Section */}
       <section id="home" className="hero">
         <div className="hero-overlay"></div>
@@ -111,6 +89,15 @@ function App() {
                 <div className="feature-icon">✓</div>
                 <h3>Customer Focus</h3>
                 <p>Your needs are our top priority</p>
+              </div>
+              <div className="feature-card">
+                <div className="feature-icon">✓</div>
+                <h3>Years Of Experience</h3>
+                <p>
+                  Over 20 years of proven experience. Click{' '}
+                  <Link to="/completed-projects" className="inline-link">here</Link>{' '}
+                  for more details.
+                </p>
               </div>
             </div>
           </div>
@@ -189,40 +176,7 @@ function App() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-content">
-            <div className="social-links">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                <FontAwesomeIcon icon={faFacebook} className="social-icon" />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                <FontAwesomeIcon icon={faTwitter} className="social-icon" />
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                <FontAwesomeIcon icon={faLinkedin} className="social-icon" />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <FontAwesomeIcon icon={faInstagram} className="social-icon" />
-              </a>
-            </div>
-            <div className="footer-logo">
-              <span className="logo-icon">🌟</span>
-              <span className="logo-text">Velcom</span>
-            </div>
-            <p className="footer-text">
-              © 2024 Velcom. All rights reserved.
-            </p>
-            <div className="footer-links">
-              <a href="#home">Privacy Policy</a>
-              <a href="#home">Terms of Service</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </>
   )
 }
 
