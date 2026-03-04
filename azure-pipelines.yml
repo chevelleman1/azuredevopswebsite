@@ -1,0 +1,111 @@
+trigger:
+  - master
+
+resources:
+  repositories:
+    - repository: automatedtesting
+      type: github
+      endpoint: 'chevelleman1'
+      name: 'chevelleman1/automatedtesting'
+    - repository: azuredevopswebsite
+      type: github
+      endpoint: 'chevelleman1'
+      name: 'chevelleman1/azuredevopswebsite'
+
+variables:
+  DOCKER_BUILDKIT: 0
+  DOCKER_CLI_BUILDX: 0
+  group: bobvault
+
+pool:
+  name: 'linuxBuildBox'
+
+stages:
+# - stage: BuildAndTest
+#   displayName: '1. Checkout, Build, Start & Test'
+#   jobs:
+#   - job: CompileAndTest
+#     steps:
+#     # 1. BOTH checkouts must happen at the very beginning of the job
+#     - checkout: azuredevopswebsite 
+#       path: 's/app'
+#     - checkout: automatedtesting 
+#       path: 's/tests'
+
+    # - task: NodeTool@0
+    #   inputs:
+    #     versionSpec: '18.x'
+    # - script: env | sort
+    #   displayName: 'List all environment variables'
+
+    # # 2. Build and Start the Website
+    # - bash: |
+    #     fuser -k 8081/tcp || true
+    #     npm install
+    #     nohup npm start > webserver.log 2>&1 &
+    #     echo $! > server.pid
+        
+    #     echo "Waiting for localhost:8081..."
+    #     for i in {1..20}; do
+    #       if curl -s http://localhost:8081 > /dev/null; then
+    #         echo "SUCCESS: Website is up!"
+    #         exit 0
+    #       fi
+    #       sleep 2
+    #     done
+    #     exit 1
+    #   workingDirectory: 'app'
+    #   displayName: 'NPM Install and NPM Start'
+
+    # # 3. Run the Automation Tests
+    # - bash: |
+    #     npm install
+    #     npm test
+    #   workingDirectory: 'tests'
+    #   displayName: 'Run UI Tests - install/test'
+
+    # # 4. Mandatory Cleanup (Stops the 25-minute hang)
+    # - bash: |
+    #     echo "Kill anything running on port 8081/tcp"
+    #     fuser -k 8081/tcp || true
+    #   displayName: 'Stop Website'
+    #   condition: always() 
+
+
+# STAGE 4: PushToDocker (Docker & Cleanup)
+- stage: PushToDocker
+  displayName: '4. Docker & Cleanup'
+  # dependsOn: BuildAndTest
+  # condition: succeeded()
+  jobs:
+  - job: PushAndClean
+    steps:
+    - checkout: azuredevopswebsite 
+      path: 's/app'
+    - task: Docker@2
+      displayName: 'Build and Push'
+      inputs:
+        command: 'buildAndPush'
+        containerRegistry: 'bobdocker' 
+        repository: 'chevelleman1/azuresite'
+        dockerfile: 'Dockerfile'
+        tags: |
+          latest
+    # - script: fuser -k 8081/tcp || true
+    #   displayName: 'Stop Server'
+    #   condition: always()
+
+- stage: Deploy
+  displayName: 'Deploy to Web Server'
+  dependsOn: PushToDocker
+  condition: succeeded()
+  jobs:
+  - job: DeployJob
+    steps:
+    - task: SSH@0
+      displayName: 'Run Docker commands on remote server'
+      inputs:
+        sshEndpoint: 'boblinuxbox'  # Your service connection name
+        runOptions: 'commands'
+        commands: 'docker pull docker.io/chevelleman1/azuresite:latest && ([ "$(docker ps -aq -f name=bobazuresite)" ] && docker rm -f bobazuresite || true) && docker run -d --name bobazuresite -p 8081:8081 docker.io/chevelleman1/azuresite:latest'
+        readyTimeout: '20000'
