@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom'
 import './App.css'
 
 function App() {
-  const [activeSection, setActiveSection] = useState('home')
   const [formSubmitted, setFormSubmitted] = useState(false)
   const location = useLocation()
 
@@ -15,7 +14,6 @@ function App() {
         const element = document.getElementById(scrollTo)
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' })
-          setActiveSection(scrollTo)
         }
       }, 100)
     }
@@ -25,7 +23,6 @@ function App() {
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
-      setActiveSection(sectionId)
     }
   }
 
