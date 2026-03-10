@@ -5,7 +5,7 @@ pipeline {
         // Change these to match your project
         IMAGE_NAME = "my-website"
         CONTAINER_NAME = "web-live"
-        PORT_MAPPING = "8081:8081" // Host port 8081 maps to Container port 8081
+        PORT_MAPPING = "8081:8081" // Host  port 8081 maps to Container port 8081
     }
 
     stages {
