@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     // Builds the image using the Dockerfile in your repo
-                    sh "docker build -t ${IMAGE_NAME}:latest ."
+                    sh "docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} ."
                 }
             }
         }
@@ -32,7 +32,7 @@ pipeline {
                     sh "docker rm ${CONTAINER_NAME} || true"
 
                     // 2. Run the new container on the Ubuntu host
-                    sh "docker run -d --name ${CONTAINER_NAME} -p ${PORT_MAPPING} --restart always ${IMAGE_NAME}:latest"
+                    sh "docker run -d --name ${CONTAINER_NAME} -p ${PORT_MAPPING} --restart always ${IMAGE_NAME}:${BUILD_NUMBER}"
                 }
             }
         }
