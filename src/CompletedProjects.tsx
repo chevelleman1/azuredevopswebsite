@@ -62,6 +62,12 @@ const projects = [
     year: 2018,
     description: 'Optimized network routing algorithms, improving data throughput by 35% and reducing latency across the region.',
   },
+    {
+    name: 'Web Application Test Automation',
+    client: 'TaskPro',
+    year: 2015,
+    description: 'Established UI automation using Selenium WebDriver and TestNG, reducing regression testing time by 60%.',
+  },
 ]
 
 function CompletedProjects() {
