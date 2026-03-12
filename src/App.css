@@ -466,6 +466,21 @@ body {
   font-weight: 500;
 }
 
+.form-error {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f8d7da;
+  color: #721c24;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.contact-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .hero-title {
