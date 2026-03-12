@@ -4,6 +4,8 @@ import './App.css'
 
 function App() {
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const [formError, setFormError] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const location = useLocation()
 
   useEffect(() => {
@@ -159,11 +161,38 @@ function App() {
                 </div>
               </div>
             </div>
-            <form className="contact-form" onSubmit={(e) => {
+            <form className="contact-form" onSubmit={async (e) => {
               e.preventDefault()
-              setFormSubmitted(true)
-              e.currentTarget.reset()
-              setTimeout(() => setFormSubmitted(false), 5000)
+              const form = e.currentTarget
+              const formData = new FormData(form)
+              const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                message: formData.get('message')
+              }
+              setIsSubmitting(true)
+              setFormError(false)
+              try {
+                const response = await fetch('/api/contact', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': import.meta.env.VITE_API_TOKEN
+                  },
+                  body: JSON.stringify(data)
+                })
+                if (response.ok) {
+                  setFormSubmitted(true)
+                  form.reset()
+                  setTimeout(() => setFormSubmitted(false), 5000)
+                } else {
+                  setFormError(true)
+                }
+              } catch (error){
+                setFormError(true)
+              } finally {
+                setIsSubmitting(false)
+              }
             }}>
               <div className="form-group">
                 <input type="text" name="name" placeholder="Your Name" required />
@@ -174,8 +203,11 @@ function App() {
               <div className="form-group">
                 <textarea name="message" placeholder="Your Message" rows={5} required></textarea>
               </div>
-              <button type="submit" className="btn btn-primary">Send Message</button>
+              <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </button>
               {formSubmitted && <div className="form-success">We'll get back to you shortly!</div>}
+              {formError && <div className="form-error">Failed to send message. Please try again.</div>}
             </form>
           </div>
         </div>
