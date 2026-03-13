@@ -173,11 +173,14 @@ function App() {
               setIsSubmitting(true)
               setFormError(false)
               try {
+                const aa = (window as any).APP_CONFIG?.apiKey || import.meta.env.VITE_API_TOKEN;
+                console.log(`trash${aa}`);
                 const response = await fetch('/api/contact', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
-                    'X-API-Key': import.meta.env.VITE_API_TOKEN
+                    // Try runtime config first (from docker -e), fallback to build-time env var
+                    'X-API-Key': (window as any).APP_CONFIG?.apiKey || import.meta.env.VITE_API_TOKEN
                   },
                   body: JSON.stringify(data)
                 })
