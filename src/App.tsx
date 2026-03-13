@@ -173,8 +173,6 @@ function App() {
               setIsSubmitting(true)
               setFormError(false)
               try {
-                const aa = (window as any).APP_CONFIG?.apiKey || import.meta.env.VITE_API_TOKEN;
-                console.log(`trash${aa}`);
                 const response = await fetch('/api/contact', {
                   method: 'POST',
                   headers: {
