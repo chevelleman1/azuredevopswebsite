@@ -6,6 +6,7 @@ pipeline {
         IMAGE_NAME = "my-website"
         CONTAINER_NAME = "web-live"
         PORT_MAPPING = "8081:8081" // Host  port 8081 maps to Container port 8081 
+        API_KEY = credentials('api-key')
     }
 
     stages {
@@ -32,7 +33,7 @@ pipeline {
                     sh "docker rm ${CONTAINER_NAME} || true"
 
                     // 2. Run the new container on the Ubuntu host
-                    sh "docker run -d --name ${CONTAINER_NAME} -p ${PORT_MAPPING} --restart always ${IMAGE_NAME}:${BUILD_NUMBER}"
+                    sh "docker run -d --name ${CONTAINER_NAME} -p ${PORT_MAPPING} --restart always -e API_KEY=${API_KEY} ${IMAGE_NAME}:${BUILD_NUMBER}"
                 }
             }
         }
